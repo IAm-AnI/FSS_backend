@@ -225,9 +225,9 @@ async def add_user_details(request: Request, db: Session = Depends(get_db)):
             Registration.user_enrollment_number == enrollment_number
         ).first()
         
-        phone_number = db.query(User).filter(
+        phone_number = db.query(User.phone_number).filter(
             User.enrollment_number == enrollment_number
-        ).first()
+        ).scalar()
         
         registered_courses = db.query(RegisteredCourse).filter(
             RegisteredCourse.user_enrollment_number == enrollment_number
@@ -278,7 +278,7 @@ async def add_user_details(request: Request, db: Session = Depends(get_db)):
             "voc_II": voc_II,
             "voc_papercode_II": voc_papercode_II,
         }
-        logger.info(response_data)
+        # logger.info(response_data)
         return response_data
         
     except HTTPException:
